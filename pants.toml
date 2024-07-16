@@ -1,0 +1,14 @@
+[GLOBAL]
+pants_version = "2.21.0"
+
+[anonymous-telemetry]
+enabled = false
+
+[source]
+root_patterns = ["/"]
+
+[python]
+interpreter_constraints = ["==3.12.*"]
+
+[python-bootstrap]
+search_path = ["<PYENV>", "<PATH>"]
