@@ -1,11 +1,12 @@
 [GLOBAL]
 pants_version = "2.21.0"
+backend_packages.add = ["pants.backend.python"]
 
 [anonymous-telemetry]
 enabled = false
 
 [source]
-root_patterns = ["/"]
+root_patterns = ["/apps", "/packages"]
 
 [python]
 interpreter_constraints = ["==3.12.*"]
