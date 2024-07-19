@@ -1,1 +1,2 @@
+from .endpoints_handler import EndpointsHandler
 from .supplier_gateway_app import SupplierGatewayApp
