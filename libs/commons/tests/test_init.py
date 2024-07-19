@@ -2,7 +2,7 @@ import io
 import unittest
 from contextlib import redirect_stdout
 
-from commons.pkg import print_hello_app
+from libs.commons.lib import print_hello_app
 
 
 class TestInit(unittest.TestCase):

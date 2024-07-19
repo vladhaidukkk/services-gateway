@@ -1,23 +1,8 @@
-roots:
-    pants roots
-
-deps-all:
-    pants dependencies ::
-
-deps-app target:
-    pants dependencies apps/{{target}}::
-
-deps-pkg target:
-    pants dependencies packages/{{target}}::
-
 run-app target:
-    pants run apps/{{target}}:{{target}}
-
-run-pkg target:
-    pants run packages/{{target}}:{{target}}
+    python -m apps.{{target}}.app.main
 
 test-app target:
-    pants test apps/{{target}}:{{target}}_tests
+    python -m unittest discover -s apps/{{target}}/tests -p "test_*.py"
 
-test-pkg target:
-    pants test packages/{{target}}:{{target}}_tests
+test-lib target:
+    python -m unittest discover -s libs/{{target}}/tests -p "test_*.py"

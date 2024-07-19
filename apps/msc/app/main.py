@@ -1,4 +1,4 @@
-from commons.pkg import print_hello_app
+from libs.commons.lib import print_hello_app
 
 
 def main() -> None:

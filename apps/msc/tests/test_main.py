@@ -2,7 +2,7 @@ import io
 import unittest
 from contextlib import redirect_stdout
 
-from msc.app.main import main
+from apps.msc.app.main import main
 
 
 class TestInit(unittest.TestCase):
