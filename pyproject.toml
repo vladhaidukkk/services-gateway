@@ -12,3 +12,6 @@ ruff = "^0.5.3"
 [tool.ruff]
 line-length = 88
 show-fixes = true
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
