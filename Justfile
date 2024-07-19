@@ -1,3 +1,16 @@
+defaukt: fmt lint
+
+# Code Formatting & Linting
+fmt:
+    ruff format apps libs
+
+lint:
+    ruff check apps libs
+
+fix:
+    ruff check --fix apps libs
+
+# Work with Apps & Libs
 run-app target:
     python -m apps.{{target}}.app.main
 
