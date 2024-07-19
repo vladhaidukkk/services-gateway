@@ -1,6 +1,15 @@
 roots:
     pants roots
 
+deps-all:
+    pants dependencies ::
+
+deps-app target:
+    pants dependencies apps/{{target}}::
+
+deps-pkg target:
+    pants dependencies packages/{{target}}::
+
 run-app target:
     pants run apps/{{target}}:{{target}}
 
