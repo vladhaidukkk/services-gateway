@@ -1,8 +1,10 @@
 from libs.supplier_gateway.lib import EndpointsHandler
 from libs.supplier_gateway.lib.models import (
     CabinGrade,
+    CabinGradePricing,
     CabinType,
     Rate,
+    RatePricing,
     RateRefundPolicy,
 )
 
@@ -39,6 +41,15 @@ class CarnivalEndpointsHandler(EndpointsHandler):
             ),
         ]
 
+    async def get_rate_pricing(self, sailing_id: str, rate_code: str) -> RatePricing:
+        return RatePricing(
+            base_price=800.00,
+            taxes=120.00,
+            fees=30.00,
+            total_price=950.00,
+            currency="USD",
+        )
+
     async def get_cabin_grades(
         self, sailing_id: str, rate_code: str
     ) -> list[CabinGrade]:
@@ -71,3 +82,14 @@ class CarnivalEndpointsHandler(EndpointsHandler):
                 cabin_type=CabinType.OUTSIDE,
             ),
         ]
+
+    async def get_cabin_grade_pricing(
+        self, sailing_id: str, rate_code: str, cabin_grade_code: str
+    ) -> CabinGradePricing:
+        return CabinGradePricing(
+            base_price=700.00,
+            taxes=100.00,
+            fees=25.00,
+            total_price=825.00,
+            currency="USD",
+        )

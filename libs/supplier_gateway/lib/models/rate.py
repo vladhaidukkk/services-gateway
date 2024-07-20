@@ -14,3 +14,11 @@ class Rate(BaseModel):
     name: str
     description: str
     refund_policy: RateRefundPolicy
+
+
+class RatePricing(BaseModel):
+    base_price: float
+    taxes: float
+    fees: float
+    total_price: float
+    currency: str

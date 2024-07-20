@@ -15,3 +15,11 @@ class CabinGrade(BaseModel):
     name: str
     description: str
     cabin_type: CabinType
+
+
+class CabinGradePricing(BaseModel):
+    base_price: float
+    taxes: float
+    fees: float
+    total_price: float
+    currency: str
