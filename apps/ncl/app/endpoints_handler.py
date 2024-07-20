@@ -1,9 +1,14 @@
 from libs.supplier_gateway.lib import EndpointsHandler
-from libs.supplier_gateway.lib.models import Rate, RefundPolicy
+from libs.supplier_gateway.lib.models import (
+    CabinGrade,
+    CabinType,
+    Rate,
+    RateRefundPolicy,
+)
 
 
 class NCLEndpointsHandler(EndpointsHandler):
-    async def get_rates(self, sailing_id: int) -> list[Rate]:
+    async def get_rates(self, sailing_id: str) -> list[Rate]:
         return [
             Rate(
                 code="NCLFALL2024",
@@ -12,7 +17,7 @@ class NCLEndpointsHandler(EndpointsHandler):
                     "Save 25% on fall 2024 cruises with NCL. "
                     "Includes free specialty dining and $100 onboard credit per cabin."
                 ),
-                refund_policy=RefundPolicy.REFUNDABLE,
+                refund_policy=RateRefundPolicy.REFUNDABLE,
             ),
             Rate(
                 code="NCLSUMMER2024",
@@ -21,7 +26,7 @@ class NCLEndpointsHandler(EndpointsHandler):
                     "Get 20% off on NCL summer 2024 cruises. "
                     "Includes complimentary shore excursions and $75 onboard credit per cabin."
                 ),
-                refund_policy=RefundPolicy.NON_REFUNDABLE_DEPOSIT,
+                refund_policy=RateRefundPolicy.NON_REFUNDABLE_DEPOSIT,
             ),
             Rate(
                 code="NCLHOLIDAY2024",
@@ -30,6 +35,39 @@ class NCLEndpointsHandler(EndpointsHandler):
                     "Enjoy a 30% discount on holiday 2024 cruises with NCL. "
                     "Includes $100 onboard credit and free WiFi."
                 ),
-                refund_policy=RefundPolicy.FULLY_NON_REFUNDABLE,
+                refund_policy=RateRefundPolicy.FULLY_NON_REFUNDABLE,
+            ),
+        ]
+
+    async def get_cabin_grades(
+        self, sailing_id: str, rate_code: str
+    ) -> list[CabinGrade]:
+        return [
+            CabinGrade(
+                code="NCLFALL2024_INSIDE",
+                name="NCL Fall Special Inside Cabin",
+                description=(
+                    "Save 25% on an inside cabin for fall 2024 cruises with NCL. "
+                    "Includes free specialty dining and $100 onboard credit per cabin."
+                ),
+                cabin_type=CabinType.INSIDE,
+            ),
+            CabinGrade(
+                code="NCLSUMMER2024_BALCONY",
+                name="NCL Summer Savings Balcony Cabin",
+                description=(
+                    "Get 20% off on a balcony cabin for NCL summer 2024 cruises. "
+                    "Includes complimentary shore excursions and $75 onboard credit per cabin."
+                ),
+                cabin_type=CabinType.BALCONY,
+            ),
+            CabinGrade(
+                code="NCLHOLIDAY2024_OUTSIDE",
+                name="NCL Holiday Special Outside Cabin",
+                description=(
+                    "Enjoy a 30% discount on an outside cabin for holiday 2024 cruises with NCL. "
+                    "Includes $100 onboard credit and free WiFi."
+                ),
+                cabin_type=CabinType.OUTSIDE,
             ),
         ]

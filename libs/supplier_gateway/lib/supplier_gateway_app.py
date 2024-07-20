@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 
 from libs.supplier_gateway.lib.endpoints_handler import EndpointsHandler
-from libs.supplier_gateway.lib.models import Rate
+from libs.supplier_gateway.lib.models import CabinGrade, Rate
 
 
 class SupplierGatewayApp:
@@ -16,9 +16,18 @@ class SupplierGatewayApp:
         def index() -> RedirectResponse:
             return RedirectResponse("/docs")
 
-        @self.app.get("/rates/{sailing_id}", response_model=list[Rate])
-        async def get_rates(sailing_id: int) -> list[Rate]:
+        @self.app.get("/sailings/{sailing_id}/rates", response_model=list[Rate])
+        async def get_rates(sailing_id: str) -> list[Rate]:
             return await endpoints_handler.get_rates(sailing_id=sailing_id)
+
+        @self.app.get(
+            "/sailings/{sailing_id}/rates/{rate_code}/cabin-grades",
+            response_model=list[CabinGrade],
+        )
+        async def get_cabin_grades(sailing_id: str, rate_code: str) -> list[CabinGrade]:
+            return await endpoints_handler.get_cabin_grades(
+                sailing_id=sailing_id, rate_code=rate_code
+            )
 
     @staticmethod
     def run(sg_app_path: str, *, port: int) -> None:
