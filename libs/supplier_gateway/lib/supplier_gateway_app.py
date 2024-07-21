@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
+from typing import Annotated, Callable, Literal
 
 import uvicorn
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI
 from fastapi.responses import RedirectResponse
 
 from libs.supplier_gateway.lib.models import (
@@ -9,6 +10,12 @@ from libs.supplier_gateway.lib.models import (
     CabinGradePricing,
     Rate,
     RatePricing,
+)
+from libs.supplier_gateway.lib.schemas import (
+    GetCabinGradePricingData,
+    GetCabinGradesData,
+    GetRatePricingData,
+    GetRatesData,
 )
 
 
@@ -20,58 +27,61 @@ class SupplierGatewayApp(ABC):
         def index() -> RedirectResponse:
             return RedirectResponse("/docs")
 
-        @self.app.get("/sailings/{sailing_id}/rates", response_model=list[Rate])
-        async def get_rates(sailing_id: str) -> list[Rate]:
-            return await self.get_rates(sailing_id=sailing_id)
-
-        @self.app.get(
-            "/sailings/{sailing_id}/rates/{rate_code}/pricing",
+        self._register_endpoint(
+            method="get",
+            path="/sailings/{sailing_id}/rates",
+            response_model=list[Rate],
+            handler=self.get_rates,
+        )
+        self._register_endpoint(
+            method="get",
+            path="/sailings/{sailing_id}/rates/{rate_code}/pricing",
             response_model=RatePricing,
+            handler=self.get_rate_pricing,
         )
-        async def get_rate_pricing(sailing_id: str, rate_code: str) -> RatePricing:
-            return await self.get_rate_pricing(
-                sailing_id=sailing_id, rate_code=rate_code
-            )
-
-        @self.app.get(
-            "/sailings/{sailing_id}/rates/{rate_code}/cabin-grades",
+        self._register_endpoint(
+            method="get",
+            path="/sailings/{sailing_id}/rates/{rate_code}/cabin-grades",
             response_model=list[CabinGrade],
+            handler=self.get_cabin_grades,
         )
-        async def get_cabin_grades(sailing_id: str, rate_code: str) -> list[CabinGrade]:
-            return await self.get_cabin_grades(
-                sailing_id=sailing_id, rate_code=rate_code
-            )
-
-        @self.app.get(
-            "/sailings/{sailing_id}/rates/{rate_code}/cabin-grades/{cabin_grade_code}/pricing",
+        self._register_endpoint(
+            method="get",
+            path="/sailings/{sailing_id}/rates/{rate_code}/cabin-grades/{cabin_grade_code}/pricing",
             response_model=CabinGradePricing,
+            handler=self.get_cabin_grade_pricing,
         )
-        async def get_cabin_grade_pricing(
-            sailing_id: str, rate_code: str, cabin_grade_code: str
-        ) -> CabinGradePricing:
-            return await self.get_cabin_grade_pricing(
-                sailing_id=sailing_id,
-                rate_code=rate_code,
-                cabin_grade_code=cabin_grade_code,
-            )
+
+    def _register_endpoint(
+        self,
+        method: Literal["get", "post", "put", "patch", "delete"],
+        path: str,
+        response_model: any,
+        handler: Callable,
+    ) -> None:
+        register_endpoint = getattr(self.app, method)
+        assign_handler = register_endpoint(path, response_model=response_model)
+        assign_handler(handler)
 
     @abstractmethod
-    async def get_rates(self, sailing_id: str) -> list[Rate]:
+    async def get_rates(self, data: Annotated[GetRatesData, Depends()]) -> list[Rate]:
         pass
 
     @abstractmethod
-    async def get_rate_pricing(self, sailing_id: str, rate_code: str) -> RatePricing:
+    async def get_rate_pricing(
+        self, data: Annotated[GetRatePricingData, Depends()]
+    ) -> RatePricing:
         pass
 
     @abstractmethod
     async def get_cabin_grades(
-        self, sailing_id: str, rate_code: str
+        self, data: Annotated[GetCabinGradesData, Depends()]
     ) -> list[CabinGrade]:
         pass
 
     @abstractmethod
     async def get_cabin_grade_pricing(
-        self, sailing_id: str, rate_code: str, cabin_grade_code: str
+        self, data: Annotated[GetCabinGradePricingData, Depends()]
     ) -> CabinGradePricing:
         pass
 
