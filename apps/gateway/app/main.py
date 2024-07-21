@@ -32,7 +32,7 @@ async def route_supplier_request(request: Request) -> any:
         supplier_base_url = "http://127.0.0.1:8004"
 
     supplier_url = supplier_base_url + request.url.path.removeprefix(
-        f"/{supplier_name}/"
+        f"/{supplier_name}"
     )
 
     async with httpx.AsyncClient() as client:
