@@ -5,6 +5,5 @@ from fastapi import Path
 
 
 @dataclass
-class GetCabinGradesData:
+class BaseGetRatesData:
     sailing_id: Annotated[str, Path()]
-    rate_code: Annotated[str, Path()]

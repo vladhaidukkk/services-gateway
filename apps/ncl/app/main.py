@@ -2,8 +2,8 @@ from typing import Annotated
 
 from fastapi import Depends
 
-from libs.supplier_gateway.lib import SupplierGatewayApp
-from libs.supplier_gateway.lib.models import (
+from libs.gateway.lib import SupplierGatewayApp
+from libs.gateway.lib.models import (
     CabinGrade,
     CabinGradePricing,
     CabinType,
@@ -11,11 +11,11 @@ from libs.supplier_gateway.lib.models import (
     RatePricing,
     RateRefundPolicy,
 )
-from libs.supplier_gateway.lib.schemas import (
-    GetCabinGradePricingData,
-    GetCabinGradesData,
-    GetRatePricingData,
-    GetRatesData,
+from libs.gateway.lib.schemas import (
+    BaseGetCabinGradePricingData,
+    BaseGetCabinGradesData,
+    BaseGetRatePricingData,
+    BaseGetRatesData,
 )
 
 
@@ -23,7 +23,9 @@ class NCLGatewayApp(SupplierGatewayApp):
     def __init__(self) -> None:
         super().__init__(supplier_name="NCL")
 
-    async def get_rates(self, data: Annotated[GetRatesData, Depends()]) -> list[Rate]:
+    async def get_rates(
+        self, data: Annotated[BaseGetRatesData, Depends()]
+    ) -> list[Rate]:
         return [
             Rate(
                 code="NCLFALL2024",
@@ -55,7 +57,7 @@ class NCLGatewayApp(SupplierGatewayApp):
         ]
 
     async def get_rate_pricing(
-        self, data: Annotated[GetRatePricingData, Depends()]
+        self, data: Annotated[BaseGetRatePricingData, Depends()]
     ) -> RatePricing:
         return RatePricing(
             base_price=1100.00,
@@ -66,7 +68,7 @@ class NCLGatewayApp(SupplierGatewayApp):
         )
 
     async def get_cabin_grades(
-        self, data: Annotated[GetCabinGradesData, Depends()]
+        self, data: Annotated[BaseGetCabinGradesData, Depends()]
     ) -> list[CabinGrade]:
         return [
             CabinGrade(
@@ -99,7 +101,7 @@ class NCLGatewayApp(SupplierGatewayApp):
         ]
 
     async def get_cabin_grade_pricing(
-        self, data: Annotated[GetCabinGradePricingData, Depends()]
+        self, data: Annotated[BaseGetCabinGradePricingData, Depends()]
     ) -> CabinGradePricing:
         return CabinGradePricing(
             base_price=800.00,
