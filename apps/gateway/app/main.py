@@ -3,6 +3,7 @@ from typing import Annotated
 import httpx
 from fastapi import Depends, Request
 
+from apps.gateway.app.config import settings
 from apps.gateway.app.schemas import (
     GetCabinGradePricingData,
     GetCabinGradesData,
@@ -23,13 +24,13 @@ async def route_supplier_request(request: Request) -> any:
     supplier_name: SupplierName = request.path_params.get("supplier_name")
 
     if supplier_name == SupplierName.CARNIVAL:
-        supplier_base_url = "http://127.0.0.1:8001"
+        supplier_base_url = settings.carnival_base_url
     elif supplier_name == SupplierName.MSC:
-        supplier_base_url = "http://127.0.0.1:8002"
+        supplier_base_url = settings.msc_base_url
     elif supplier_name == SupplierName.NCL:
-        supplier_base_url = "http://127.0.0.1:8003"
+        supplier_base_url = settings.ncl_base_url
     else:
-        supplier_base_url = "http://127.0.0.1:8004"
+        supplier_base_url = settings.royal_base_url
 
     uri = request.url.path.removeprefix(f"/{supplier_name}")
     supplier_url = f"{supplier_base_url}{uri}?{request.url.query}"
