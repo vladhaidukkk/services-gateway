@@ -71,7 +71,8 @@ class GatewayApp(ABC):
         Parameters
         ----------
         data : Annotated[BaseGetRatesData, Depends()]
-            Use it for the base grouping of path params, query params, and payload.
+            By specifying this data param or an extended version of it, you get not only a single object with all params
+            and payload in it, but also the endpoint documentation will be generated based on it.
 
         """
         pass
@@ -85,7 +86,8 @@ class GatewayApp(ABC):
         Parameters
         ----------
         data : Annotated[BaseGetRatePricingData, Depends()]
-            Use it for the base grouping of path params, query params, and payload.
+            By specifying this data param or an extended version of it, you get not only a single object with all params
+            and payload in it, but also the endpoint documentation will be generated based on it.
 
         """
         pass
@@ -99,7 +101,8 @@ class GatewayApp(ABC):
         Parameters
         ----------
         data : Annotated[BaseGetCabinGradesData, Depends()]
-            Use it for the base grouping of path params, query params, and payload.
+            By specifying this data param or an extended version of it, you get not only a single object with all params
+            and payload in it, but also the endpoint documentation will be generated based on it.
 
         """
         pass
@@ -113,7 +116,8 @@ class GatewayApp(ABC):
         Parameters
         ----------
         data : Annotated[BaseGetCabinGradePricingData, Depends()]
-            Use it for the base grouping of path params, query params, and payload.
+            By specifying this data param or an extended version of it, you get not only a single object with all params
+            and payload in it, but also the endpoint documentation will be generated based on it.
 
         """
         pass
