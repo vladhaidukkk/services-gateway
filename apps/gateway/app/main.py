@@ -49,22 +49,22 @@ class SuppliersGatewayApp(GatewayApp):
         super().__init__(gateway_name="Suppliers", endpoints_prefix="/{supplier_name}")
 
     async def get_rates(
-        self, data: Annotated[GetRatesData, Depends()], request: Request
+        self, request: Request, data: Annotated[GetRatesData, Depends()]
     ) -> list[Rate]:
         return await route_supplier_request(request=request)
 
     async def get_rate_pricing(
-        self, data: Annotated[GetRatePricingData, Depends()], request: Request
+        self, request: Request, data: Annotated[GetRatePricingData, Depends()]
     ) -> RatePricing:
         return await route_supplier_request(request=request)
 
     async def get_cabin_grades(
-        self, data: Annotated[GetCabinGradesData, Depends()], request: Request
+        self, request: Request, data: Annotated[GetCabinGradesData, Depends()]
     ) -> list[CabinGrade]:
         return await route_supplier_request(request=request)
 
     async def get_cabin_grade_pricing(
-        self, data: Annotated[GetCabinGradePricingData, Depends()], request: Request
+        self, request: Request, data: Annotated[GetCabinGradePricingData, Depends()]
     ) -> CabinGradePricing:
         return await route_supplier_request(request=request)
 

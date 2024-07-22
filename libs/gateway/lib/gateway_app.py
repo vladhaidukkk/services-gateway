@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
-from typing import Annotated, Callable, Literal
+from typing import Callable, Literal
 
 import uvicorn
-from fastapi import Depends, FastAPI
+from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 
 from libs.gateway.lib.models import (
@@ -10,12 +10,6 @@ from libs.gateway.lib.models import (
     CabinGradePricing,
     Rate,
     RatePricing,
-)
-from libs.gateway.lib.schemas import (
-    BaseGetCabinGradePricingData,
-    BaseGetCabinGradesData,
-    BaseGetRatePricingData,
-    BaseGetRatesData,
 )
 
 
@@ -69,27 +63,59 @@ class GatewayApp(ABC):
         register_endpoint(handler)
 
     @abstractmethod
-    async def get_rates(
-        self, data: Annotated[BaseGetRatesData, Depends()]
-    ) -> list[Rate]:
+    async def get_rates(self, *args, **kwargs) -> list[Rate]:
+        """Rates retrieval endpoint handler.
+
+        This method should be implemented to handle the retrieval of rates.
+
+        Parameters
+        ----------
+        data : Annotated[BaseGetRatesData, Depends()]
+            Use it for the base grouping of path params, query params, and payload.
+
+        """
         pass
 
     @abstractmethod
-    async def get_rate_pricing(
-        self, data: Annotated[BaseGetRatePricingData, Depends()]
-    ) -> RatePricing:
+    async def get_rate_pricing(self, *args, **kwargs) -> RatePricing:
+        """Rate pricing retrieval endpoint handler.
+
+        This method should be implemented to handle the retrieval of rate pricing.
+
+        Parameters
+        ----------
+        data : Annotated[BaseGetRatePricingData, Depends()]
+            Use it for the base grouping of path params, query params, and payload.
+
+        """
         pass
 
     @abstractmethod
-    async def get_cabin_grades(
-        self, data: Annotated[BaseGetCabinGradesData, Depends()]
-    ) -> list[CabinGrade]:
+    async def get_cabin_grades(self, *args, **kwargs) -> list[CabinGrade]:
+        """Cabin grades retrieval endpoint handler.
+
+        This method should be implemented to handle the retrieval of cabin grades.
+
+        Parameters
+        ----------
+        data : Annotated[BaseGetCabinGradesData, Depends()]
+            Use it for the base grouping of path params, query params, and payload.
+
+        """
         pass
 
     @abstractmethod
-    async def get_cabin_grade_pricing(
-        self, data: Annotated[BaseGetCabinGradePricingData, Depends()]
-    ) -> CabinGradePricing:
+    async def get_cabin_grade_pricing(self, *args, **kwargs) -> CabinGradePricing:
+        """Cabin grade pricing retrieval endpoint handler.
+
+        This method should be implemented to handle the retrieval of cabin grade pricing.
+
+        Parameters
+        ----------
+        data : Annotated[BaseGetCabinGradePricingData, Depends()]
+            Use it for the base grouping of path params, query params, and payload.
+
+        """
         pass
 
     @staticmethod
